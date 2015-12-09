@@ -17,10 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.linkor.dao.UserSignUpDAO;
 import com.linkor.model.User;
 import com.linkor.model.UserProfile;
+import com.linkor.model.UserSignUp;
 import com.linkor.service.UserProfileService;
 import com.linkor.service.UserService;
+import com.linkor.service.UserSignUpService;
 
 
 
@@ -34,6 +37,9 @@ public class AppController {
 	
 	@Autowired
 	UserProfileService userProfileService;
+	
+	@Autowired
+	UserSignUpService userSignUpService;
 	
 	
 	@Autowired
@@ -94,6 +100,36 @@ public class AppController {
 		return "registrationsuccess";
 	}
 
+	/**
+	 * This method will be called on form submission, handling POST request for
+	 * saving user in database. It also validates the user input
+	 */
+	@RequestMapping(value = "/signUp", method = RequestMethod.GET)
+	public String saveUserSignUp(@ModelAttribute UserSignUp userSignUp, BindingResult result,
+			ModelMap model) {
+
+		if (result.hasErrors()) {
+			return "index";
+		}
+
+		/*
+		 * Preferred way to achieve uniqueness of field [sso] should be implementing custom @Unique annotation 
+		 * and applying it on field [sso] of Model class [User].
+		 * 
+		 * Below mentioned peace of code [if block] is to demonstrate that you can fill custom errors outside the validation
+		 * framework as well while still using internationalized messages.
+		 * 
+		 */
+		if(!userSignUpService.checkSignUp(userSignUp.getUserName(), userSignUp.getEmailId())){
+			FieldError ssoError =new FieldError("userName","emailId",messageSource.getMessage("non.unique.emailId", new String[]{userSignUp.getEmailId()}, Locale.getDefault()));
+		    result.addError(ssoError);
+			return "index";
+		}
+		
+		userSignUpService.saveUserSignUp(userSignUp);
+
+		return "index2";
+	}
 
 	/**
 	 * This method will provide the medium to update an existing user.
