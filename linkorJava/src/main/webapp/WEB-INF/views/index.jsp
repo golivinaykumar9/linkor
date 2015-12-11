@@ -31,21 +31,21 @@
         <div id="signup">   
           <h1>Sign Up for Free</h1>
           
-          <form:form action="/signUp" method="POST" modelAttribute="userSignUp">
+          <form:form action="/Linkor/signUp" method="POST" modelAttribute="userSignUp">
           
           <div class="top-row">
             <div class="field-wrap">
               <label>
                 First Name<span class="req">*</span>
               </label>
-              <input type="text" id ="firstName" required autocomplete="off" />
+              <input type="text" id ="firstName" name ="firstName" required autocomplete="off" />
             </div>
         
             <div class="field-wrap">
               <label>
                 Last Name<span class="req">*</span>
               </label>
-              <input type="text" id ="lastName" required autocomplete="off"/>
+              <input type="text" id ="lastName" name ="lastName" required autocomplete="off"/>
             </div>
           </div>
 
@@ -53,14 +53,14 @@
             <label>
               User Name<span class="req">*</span>
             </label>
-            <input type="text" id="userName" required autocomplete="off"/>
+            <input type="text" id="userName" name="userName" required autocomplete="off"/>
           </div>
           
           <div class="field-wrap">
             <label>
               Email Address<span class="req">*</span>
             </label>
-            <input type="email" id="emailId" required autocomplete="off"/>
+            <input type="email" id="emailId" name="emailId" required autocomplete="off"/>
           </div>
           
           
@@ -69,10 +69,10 @@
             <label>
               Set A Password<span class="req">*</span>
             </label>
-            <input type="password" id="password" required autocomplete="off"/>
+            <input type="password" id="password"  name="password"required autocomplete="off"/>
           </div>
           
-          <button type="submit" class="button button-block"/><a href="<c:url value='/signUp' />">Sign up User</a>Get Started</button>
+          <button type="submit" class="button button-block"/>Get Started</button>
           
           </form:form >
 

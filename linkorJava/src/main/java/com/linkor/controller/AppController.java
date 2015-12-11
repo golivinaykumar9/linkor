@@ -1,5 +1,6 @@
 package com.linkor.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -17,10 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.linkor.dao.UserSignUpDAO;
 import com.linkor.model.User;
 import com.linkor.model.UserProfile;
 import com.linkor.model.UserSignUp;
+import com.linkor.service.MailingService;
 import com.linkor.service.UserProfileService;
 import com.linkor.service.UserService;
 import com.linkor.service.UserSignUpService;
@@ -40,6 +41,9 @@ public class AppController {
 	
 	@Autowired
 	UserSignUpService userSignUpService;
+	
+	@Autowired
+	MailingService mailingService;
 	
 	
 	@Autowired
@@ -94,7 +98,7 @@ public class AppController {
 		}
 		
 		userService.saveUser(user);
-
+		
 		model.addAttribute("success", "User " + user.getFirstName() + " "+ user.getLastName() + " registered successfully");
 		//return "success";
 		return "registrationsuccess";
@@ -104,8 +108,8 @@ public class AppController {
 	 * This method will be called on form submission, handling POST request for
 	 * saving user in database. It also validates the user input
 	 */
-	@RequestMapping(value = "/signUp", method = RequestMethod.GET)
-	public String saveUserSignUp(@ModelAttribute UserSignUp userSignUp, BindingResult result,
+	@RequestMapping(value = "/signUp", method = RequestMethod.POST)
+	public String saveUserSignUp(@ModelAttribute("UserSignUp") UserSignUp userSignUp, BindingResult result,
 			ModelMap model) {
 
 		if (result.hasErrors()) {
@@ -125,6 +129,11 @@ public class AppController {
 		    result.addError(ssoError);
 			return "index";
 		}
+		userSignUp.setCreatedDate(new Date());
+		userSignUp.setStatus("A");
+		userSignUp.setUpdatedDate(new Date());
+		userSignUp.setStateIndicater("A");
+		mailingService.sendMail(userSignUp, "1234");
 		
 		userSignUpService.saveUserSignUp(userSignUp);
 

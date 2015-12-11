@@ -30,9 +30,10 @@ public class UserSignUpServiceImpl implements UserSignUpService{
 		
 	}
 
+	@SuppressWarnings("null")
 	public boolean checkSignUp(String UserName, String emailId) {
 		List<UserSignUp> checkSignUp = userSignUpDAO.checkSignUp(UserName, emailId);
-		if(checkSignUp != null || checkSignUp.size() !=0){
+		if(checkSignUp != null && checkSignUp.size() !=0){
 			return false;
 		}
 		return true;
