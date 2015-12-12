@@ -19,8 +19,7 @@ public class UserSignUp {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer signUpId;
 
-	@NotEmpty
-	@Column(name = "STATUS", unique = true, nullable = false)
+	@Column(name = "STATUS",nullable = false)
 	private String status;
 
 	@NotEmpty
@@ -28,10 +27,10 @@ public class UserSignUp {
 	private String userName;
 	
 	@NotEmpty
-	@Column(name = "FIRST_NAME", unique = true, nullable = false)
+	@Column(name = "FIRST_NAME", nullable = false)
 	private String firstName;
 	@NotEmpty
-	@Column(name = "LAST_NAME", unique = true, nullable = false)
+	@Column(name = "LAST_NAME", nullable = false)
 	private String lastName;
 
 	@NotEmpty
@@ -41,14 +40,20 @@ public class UserSignUp {
 	@NotEmpty
 	@Column(name = "EMAILID", unique = true, nullable = false)
 	private String emailId;
+	
+	@NotEmpty
+	@Column(name = "VERIFICATION_CODE", nullable = false)
+	private String verificationCode;
 
 	@NotEmpty
 	@Column(name = "STATE_INDICATER", nullable = false)
 	private String stateIndicater;
-
+	
+	@NotEmpty
 	@Column(name = "CREATED_DATE", nullable = true)
 	private Date createdDate;
-
+	
+	@NotEmpty
 	@Column(name = "UPDATED_DATE", nullable = true)
 	private Date updatedDate;
 

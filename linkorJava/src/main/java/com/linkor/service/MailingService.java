@@ -4,6 +4,6 @@ import com.linkor.model.UserSignUp;
 
 public interface MailingService {
 	
-	void sendMail(UserSignUp userSignUp, String Code);
+	void sendMail(String toAddress, String fromAddress, String subject, String msgBody);
 
 }

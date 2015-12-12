@@ -109,21 +109,12 @@ public class AppController {
 	 * saving user in database. It also validates the user input
 	 */
 	@RequestMapping(value = "/signUp", method = RequestMethod.POST)
-	public String saveUserSignUp(@ModelAttribute("UserSignUp") UserSignUp userSignUp, BindingResult result,
+	public String saveUserSignUp(@Valid UserSignUp userSignUp, BindingResult result,
 			ModelMap model) {
 
 		if (result.hasErrors()) {
 			return "index";
 		}
-
-		/*
-		 * Preferred way to achieve uniqueness of field [sso] should be implementing custom @Unique annotation 
-		 * and applying it on field [sso] of Model class [User].
-		 * 
-		 * Below mentioned peace of code [if block] is to demonstrate that you can fill custom errors outside the validation
-		 * framework as well while still using internationalized messages.
-		 * 
-		 */
 		if(!userSignUpService.checkSignUp(userSignUp.getUserName(), userSignUp.getEmailId())){
 			FieldError ssoError =new FieldError("userName","emailId",messageSource.getMessage("non.unique.emailId", new String[]{userSignUp.getEmailId()}, Locale.getDefault()));
 		    result.addError(ssoError);
@@ -133,7 +124,8 @@ public class AppController {
 		userSignUp.setStatus("A");
 		userSignUp.setUpdatedDate(new Date());
 		userSignUp.setStateIndicater("A");
-		mailingService.sendMail(userSignUp, "1234");
+		//mailingService.sendMail(userSignUp, "1234");
+		mailingService.sendMail("golivinaykumar1@gmail.com", "golivinaykumar9@gmail.com", "test mail", "resived mail");
 		
 		userSignUpService.saveUserSignUp(userSignUp);
 
