@@ -18,7 +18,6 @@ public class UserLogin {
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer loginId;
 	
-	@NotEmpty
 	@Column(name="STATUS",  nullable=false)
 	private String status;
 	
@@ -30,22 +29,43 @@ public class UserLogin {
 	@Column(name="PASSWORD",  nullable=false)
 	private String password;
 	
-	@NotEmpty
 	@Column(name="ROLE",  nullable=false)
 	private String role;
 	
-	@NotEmpty
+	@Column(name="EMAIL_ID",  nullable=false)
+	private String emailId;
+	
 	@Column(name="STATE_INDICATER",  nullable=false)
 	private String stateIndicater;
 	
-	@NotEmpty
 	@Column(name="CREATED_DATE",  nullable=false)
 	private Date createdDate;
 	
+	@Column(name="VERIFICATION_CODE",  nullable=false)
+	private String verificationCode;
 	
-	@NotEmpty
 	@Column(name="UPDATED_DATE",  nullable=false)
 	private Date updatedDate;
+
+	
+	public String getEmailId() {
+		return emailId;
+	}
+
+
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
+	}
+
+
+	public String getVerificationCode() {
+		return verificationCode;
+	}
+
+
+	public void setVerificationCode(String verificationCode) {
+		this.verificationCode = verificationCode;
+	}
 
 
 	public Integer getLoginId() {

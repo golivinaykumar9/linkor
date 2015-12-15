@@ -43,5 +43,13 @@ public class UserSignUpDAOImpl extends AbstractDao<Integer, UserSignUp> implemen
 		crit.add(orExp);
 		return (List<UserSignUp>)crit.list();
 	}
+	public List<UserSignUp> checkLogin(String userName,String pasword) {
+		Criteria crit = createEntityCriteria();
+		Criterion userNameCrit = Restrictions.eq("userName", userName);
+		Criterion emailIdCrit = Restrictions.eq("password", pasword);
+		LogicalExpression orExp = Restrictions.and(userNameCrit,emailIdCrit);
+		crit.add(orExp);
+		return (List<UserSignUp>)crit.list();
+	}
 
 }

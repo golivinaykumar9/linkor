@@ -8,7 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
@@ -23,42 +25,42 @@ public class UserSignUp {
 	private String status;
 
 	@NotEmpty
+	@Size(min=5, max=15)
 	@Column(name = "USERNAME", unique = true, nullable = false)
 	private String userName;
 	
 	@NotEmpty
+	@Size(min=2)
 	@Column(name = "FIRST_NAME", nullable = false)
 	private String firstName;
 	@NotEmpty
+	@Size(min=2)
 	@Column(name = "LAST_NAME", nullable = false)
 	private String lastName;
 
 	@NotEmpty
+	@Size(min=8, max=15)
 	@Column(name = "PASSWORD", nullable = false)
 	private String password;
 
 	@NotEmpty
+	@Email
 	@Column(name = "EMAILID", unique = true, nullable = false)
 	private String emailId;
 	
-	@NotEmpty
-	@Column(name = "VERIFICATION_CODE", nullable = false)
-	private String verificationCode;
-
-	@NotEmpty
+	
 	@Column(name = "STATE_INDICATER", nullable = false)
 	private String stateIndicater;
 	
-	@NotEmpty
 	@Column(name = "CREATED_DATE", nullable = true)
 	private Date createdDate;
 	
-	@NotEmpty
 	@Column(name = "UPDATED_DATE", nullable = true)
 	private Date updatedDate;
 
 	
 	
+
 	public Integer getSignUpId() {
 		return signUpId;
 	}

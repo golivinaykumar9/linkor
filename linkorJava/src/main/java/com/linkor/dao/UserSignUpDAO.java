@@ -14,4 +14,6 @@ public interface UserSignUpDAO {
 	
 	List<UserSignUp> checkSignUp(String userName,String emailId);
 	
+	List<UserSignUp> checkLogin(String userName,String pasword);
+	
 }
