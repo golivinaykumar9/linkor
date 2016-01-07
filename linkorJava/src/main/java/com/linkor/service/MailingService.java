@@ -1,6 +1,6 @@
 package com.linkor.service;
 
-import com.linkor.model.UserSignUp;
+import com.linkor.model.UserProfile;
 
 public interface MailingService {
 	

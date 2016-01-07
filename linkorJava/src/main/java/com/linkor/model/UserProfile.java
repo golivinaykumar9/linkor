@@ -1,75 +1,152 @@
 package com.linkor.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name="USER_PROFILE")
+@Table(name = "USER_PROFILE")
 public class UserProfile {
 
-	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer id;	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer signUpId;
 
-	@Column(name="TYPE", length=15, unique=true, nullable=false)
-	private String type = UserProfileType.USER.getUserProfileType();
+	@Column(name = "STATUS",nullable = false)
+	private String status;
+
+	@NotEmpty
+	@Size(min=5, max=15)
+	@Column(name = "USERNAME", unique = true, nullable = false)
+	private String userName;
 	
+	@NotEmpty
+	@Size(min=2)
+	@Column(name = "FIRST_NAME", nullable = false)
+	private String firstName;
+	@NotEmpty
+	@Size(min=2)
+	@Column(name = "LAST_NAME", nullable = false)
+	private String lastName;
+
+	@NotEmpty
+	@Size(min=8, max=15)
+	@Column(name = "PASSWORD", nullable = false)
+	private String password;
+
+	@NotEmpty
+	@Email
+	@Column(name = "EMAILID", unique = true, nullable = false)
+	private String emailId;
+	
+	
+	@Column(name = "STATE_INDICATER", nullable = false)
+	private String stateIndicater;
+	
+	@Column(name = "CREATED_DATE", nullable = true)
+	private Date createdDate;
+	
+	@Column(name = "UPDATED_DATE", nullable = true)
+	private Date updatedDate;
+
+	
+	
+
+	public Integer getSignUpId() {
+		return signUpId;
+	}
+
+	public void setSignUpId(Integer signUpId) {
+		this.signUpId = signUpId;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
 	public Integer getId() {
-		return id;
+		return signUpId;
 	}
 
 	public void setId(Integer id) {
-		this.id = id;
+		this.signUpId = id;
 	}
 
-	public String getType() {
-		return type;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
-		return result;
+	public String getUserName() {
+		return userName;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof UserProfile))
-			return false;
-		UserProfile other = (UserProfile) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (type == null) {
-			if (other.type != null)
-				return false;
-		} else if (!type.equals(other.type))
-			return false;
-		return true;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
-	@Override
-	public String toString() {
-		return "UserProfile [id=" + id + ", type=" + type + "]";
+	public String getPassword() {
+		return password;
 	}
 
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
+	public String getEmailId() {
+		return emailId;
+	}
 
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
+	}
+
+	public String getStateIndicater() {
+		return stateIndicater;
+	}
+
+	public void setStateIndicater(String stateIndicater) {
+		this.stateIndicater = stateIndicater;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public Date getUpdatedDate() {
+		return updatedDate;
+	}
+
+	public void setUpdatedDate(Date updatedDate) {
+		this.updatedDate = updatedDate;
+	}
 
 }

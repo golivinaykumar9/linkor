@@ -2,18 +2,18 @@ package com.linkor.dao;
 
 import java.util.List;
 
-import com.linkor.model.UserSignUp;
+import com.linkor.model.UserProfile;
 
 public interface UserSignUpDAO {
 	
-	UserSignUp findByUserName(String userName);
+	UserProfile findByUserName(String userName);
 	
-	UserSignUp findByEmailId(String email);
+	UserProfile findByEmailId(String email);
 	
-	void saveUserSignUp(UserSignUp userSignUp);
+	void saveUserSignUp(UserProfile userSignUp);
 	
-	List<UserSignUp> checkSignUp(String userName,String emailId);
+	List<UserProfile> checkSignUp(String userName,String emailId);
 	
-	List<UserSignUp> checkLogin(String userName,String pasword);
+	List<UserProfile> checkLogin(String userName,String pasword);
 	
 }

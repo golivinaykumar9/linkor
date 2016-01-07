@@ -27,7 +27,7 @@ public class UserConformation {
 	private Date createdDate;
 	
 	@OneToOne
-	private UserSignUp userSignUp;
+	private UserProfile userSignUp;
 
 	public Integer getConformationId() {
 		return conformationId;
@@ -53,11 +53,11 @@ public class UserConformation {
 		this.createdDate = createdDate;
 	}
 
-	public UserSignUp getUserSignUp() {
+	public UserProfile getUserSignUp() {
 		return userSignUp;
 	}
 
-	public void setUserSignUp(UserSignUp userSignUp) {
+	public void setUserSignUp(UserProfile userSignUp) {
 		this.userSignUp = userSignUp;
 	}
 	

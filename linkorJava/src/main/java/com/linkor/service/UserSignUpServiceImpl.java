@@ -12,7 +12,7 @@ import com.linkor.ENUM.UserENUM;
 import com.linkor.dao.UserLoginDAO;
 import com.linkor.dao.UserSignUpDAO;
 import com.linkor.model.UserLogin;
-import com.linkor.model.UserSignUp;
+import com.linkor.model.UserProfile;
 
 
 @Service("userSignUpService")
@@ -28,15 +28,15 @@ public class UserSignUpServiceImpl implements UserSignUpService{
 	@Autowired
 	private MailingService mailingService;
 
-	public UserSignUp findByUserName(String UserName) {
+	public UserProfile findByUserName(String UserName) {
 		return userSignUpDAO.findByUserName(UserName);
 	}
 
-	public UserSignUp findByEmailId(String emailId) {
+	public UserProfile findByEmailId(String emailId) {
 		return userSignUpDAO.findByEmailId(emailId);
 	}
 
-	public void saveUserSignUp(UserSignUp userSignUp) {
+	public void saveUserSignUp(UserProfile userSignUp) {
 		userSignUpDAO.saveUserSignUp(userSignUp);
 		UserLogin userLogin = new UserLogin();
 		userLogin.setCreatedDate(new Date());
@@ -56,7 +56,7 @@ public class UserSignUpServiceImpl implements UserSignUpService{
 
 	@SuppressWarnings("null")
 	public boolean checkSignUp(String UserName, String emailId) {
-		List<UserSignUp> checkSignUp = userSignUpDAO.checkSignUp(UserName, emailId);
+		List<UserProfile> checkSignUp = userSignUpDAO.checkSignUp(UserName, emailId);
 		if(checkSignUp != null && checkSignUp.size() !=0){
 			return false;
 		}

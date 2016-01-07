@@ -3,6 +3,7 @@ package com.linkor.controller;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 import javax.validation.Valid;
 
@@ -16,12 +17,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.linkor.ENUM.UserENUM;
 import com.linkor.model.User;
+import com.linkor.model.UserLogin;
 import com.linkor.model.UserProfile;
-import com.linkor.model.UserSignUp;
+import com.linkor.model.UserProfile;
 import com.linkor.service.MailingService;
+import com.linkor.service.UserLoginService;
 import com.linkor.service.UserProfileService;
 import com.linkor.service.UserService;
 import com.linkor.service.UserSignUpService;
@@ -45,6 +50,9 @@ public class AppController {
 	@Autowired
 	MailingService mailingService;
 	
+	@Autowired
+	UserLoginService userLoginService;
+	
 	
 	@Autowired
 	MessageSource messageSource;
@@ -52,12 +60,9 @@ public class AppController {
 	/**
 	 * This method will list all existing users.
 	 */
-	@RequestMapping(value = { "/", "/list" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/" }, method = RequestMethod.GET)
 	public String listUsers(ModelMap model) {
-
-		List<User> users = userService.findAllUsers();
-		model.addAttribute("users", users);
-		return "index";
+		return "index1";
 	}
 
 	/**
@@ -83,14 +88,6 @@ public class AppController {
 			return "registration";
 		}
 
-		/*
-		 * Preferred way to achieve uniqueness of field [sso] should be implementing custom @Unique annotation 
-		 * and applying it on field [sso] of Model class [User].
-		 * 
-		 * Below mentioned peace of code [if block] is to demonstrate that you can fill custom errors outside the validation
-		 * framework as well while still using internationalized messages.
-		 * 
-		 */
 		if(!userService.isUserSSOUnique(user.getId(), user.getSsoId())){
 			FieldError ssoError =new FieldError("user","ssoId",messageSource.getMessage("non.unique.ssoId", new String[]{user.getSsoId()}, Locale.getDefault()));
 		    result.addError(ssoError);
@@ -109,29 +106,69 @@ public class AppController {
 	 * saving user in database. It also validates the user input
 	 */
 	@RequestMapping(value = "/signUp", method = RequestMethod.POST)
-	public String saveUserSignUp(@Valid UserSignUp userSignUp, BindingResult result,
+	public String saveUserSignUp(@Valid UserProfile userSignUp, BindingResult result,
 			ModelMap model) {
 
 		if (result.hasErrors()) {
-			return "index";
+			return "index1";
 		}
 		if(!userSignUpService.checkSignUp(userSignUp.getUserName(), userSignUp.getEmailId())){
 			FieldError ssoError =new FieldError("userName","emailId",messageSource.getMessage("non.unique.emailId", new String[]{userSignUp.getEmailId()}, Locale.getDefault()));
 		    result.addError(ssoError);
-			return "index";
+		    return "index1";
 		}
 		userSignUp.setCreatedDate(new Date());
-		userSignUp.setStatus("A");
+		userSignUp.setStatus(UserENUM.ACTIVE.getStatusCode());
 		userSignUp.setUpdatedDate(new Date());
-		userSignUp.setStateIndicater("A");
-		//mailingService.sendMail(userSignUp, "1234");
-		mailingService.sendMail("golivinaykumar1@gmail.com", "golivinaykumar9@gmail.com", "test mail", "resived mail");
-		
+		userSignUp.setStateIndicater(UserENUM.PENDING.getStatusCode());
 		userSignUpService.saveUserSignUp(userSignUp);
-
-		return "index2";
+		
+		//mailingService.sendMail(userSignUp.getEmailId(), "golivinaykumar9@gmail.com", "Verification Code", "Verification Code  "+userSignUp.getVerificationCode());
+			
+		return "index1";
 	}
 
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String userLogin(@Valid UserLogin userSignUp, BindingResult result,
+			ModelMap model) {
+
+		if(userSignUp.getUserName()==null || userSignUp.getUserName().isEmpty() || userSignUp.getPassword() == null || userSignUp.getPassword().isEmpty()){
+			if(userSignUp.getUserName()==null || userSignUp.getUserName().isEmpty()){
+				FieldError userNameError =new FieldError("userSignUp","userName",messageSource.getMessage("non.unique.userNameLogin", new String[]{}, Locale.getDefault()));
+			    result.addError(userNameError);
+			    }
+			if(userSignUp.getPassword() == null || userSignUp.getPassword().isEmpty()){
+				FieldError passwordError =new FieldError("userName","password",messageSource.getMessage("non.unique.passwordLogin", new String[]{}, Locale.getDefault()));
+			    result.addError(passwordError);
+			    }
+			model.addAttribute(UserENUM.FAILED.getStatusCode(), true);
+			return "index1";
+		}
+		
+		String loginStatus = userLoginService.checkLogin(userSignUp);
+		if(UserENUM.ACTIVE.getStatusCode().equalsIgnoreCase(loginStatus)){
+			return "home";
+		}else if(UserENUM.PENDING.getStatusCode().equalsIgnoreCase(loginStatus)){
+			return "activation";
+			
+		}else if(UserENUM.INACTIVE.getStatusCode().equalsIgnoreCase(loginStatus)){
+			return "index1";
+		}else {
+			FieldError passwordError =new FieldError("userName","password",messageSource.getMessage("non.unique.passwordLogin", new String[]{}, Locale.getDefault()));
+		    result.addError(passwordError);
+		  
+		}
+		return "index1";
+	}
+	@RequestMapping(value = "/verify", method = RequestMethod.POST)
+	public String userVerify(@RequestParam String verificationNumber, BindingResult result,
+			ModelMap model) {
+		if(verificationNumber.equals(null)){
+			FieldError verificationNumberError =new FieldError("String","verificationNumber",messageSource.getMessage("notnull.verificationNumber", new String[]{}, Locale.getDefault()));
+		    result.addError(verificationNumberError);
+		    }
+		return "activation";
+	}
 	/**
 	 * This method will provide the medium to update an existing user.
 	 */

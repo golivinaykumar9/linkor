@@ -1,14 +1,14 @@
 package com.linkor.service;
 
-import com.linkor.model.UserSignUp;
+import com.linkor.model.UserProfile;
 
 public interface UserSignUpService {
 
-	UserSignUp findByUserName(String UserName);
+	UserProfile findByUserName(String UserName);
 
-	UserSignUp findByEmailId(String emailId);
+	UserProfile findByEmailId(String emailId);
 
-	void saveUserSignUp(UserSignUp userSignUp);
+	void saveUserSignUp(UserProfile userSignUp);
 	
 	boolean checkSignUp(String UserName,String emailId);
 

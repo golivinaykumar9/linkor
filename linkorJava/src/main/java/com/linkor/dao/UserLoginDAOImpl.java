@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.linkor.ENUM.UserENUM;
 import com.linkor.model.User;
 import com.linkor.model.UserLogin;
-import com.linkor.model.UserSignUp;
+import com.linkor.model.UserProfile;
 
 @Repository("UserLoginDAO")
 public class UserLoginDAOImpl extends AbstractDao<Integer, UserLogin> implements UserLoginDAO {

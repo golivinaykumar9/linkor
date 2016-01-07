@@ -8,48 +8,48 @@ import org.hibernate.criterion.LogicalExpression;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
-import com.linkor.model.UserSignUp;
+import com.linkor.model.UserProfile;
 @Repository("userSignUpDAO")
-public class UserSignUpDAOImpl extends AbstractDao<Integer, UserSignUp> implements UserSignUpDAO {
+public class UserSignUpDAOImpl extends AbstractDao<Integer, UserProfile> implements UserSignUpDAO {
 
-	public UserSignUp findByUserName(String userName) {
+	public UserProfile findByUserName(String userName) {
 		System.out.println("userName : " + userName);
 		Criteria crit = createEntityCriteria();
 		crit.add(Restrictions.eq("userName", userName));
-		UserSignUp userSignUp = (UserSignUp) crit.uniqueResult();
+		UserProfile userSignUp = (UserProfile) crit.uniqueResult();
 
 		return userSignUp;
 	}
 
-	public void saveUserSignUp(UserSignUp userSignUp) {
+	public void saveUserSignUp(UserProfile userSignUp) {
 		persist(userSignUp);
 
 	}
 
-	public UserSignUp findByEmailId(String emailId) {
+	public UserProfile findByEmailId(String emailId) {
 		System.out.println("emailId : " + emailId);
 		Criteria crit = createEntityCriteria();
 		crit.add(Restrictions.eq("emailId", emailId));
-		UserSignUp userSignUp = (UserSignUp) crit.uniqueResult();
+		UserProfile userSignUp = (UserProfile) crit.uniqueResult();
 
 		return userSignUp;
 	}
 	
-	public List<UserSignUp> checkSignUp(String userName,String emailId) {
+	public List<UserProfile> checkSignUp(String userName,String emailId) {
 		Criteria crit = createEntityCriteria();
 		Criterion userNameCrit = Restrictions.eq("userName", userName);
 		Criterion emailIdCrit = Restrictions.eq("emailId", emailId);
 		LogicalExpression orExp = Restrictions.or(userNameCrit,emailIdCrit);
 		crit.add(orExp);
-		return (List<UserSignUp>)crit.list();
+		return (List<UserProfile>)crit.list();
 	}
-	public List<UserSignUp> checkLogin(String userName,String pasword) {
+	public List<UserProfile> checkLogin(String userName,String pasword) {
 		Criteria crit = createEntityCriteria();
 		Criterion userNameCrit = Restrictions.eq("userName", userName);
 		Criterion emailIdCrit = Restrictions.eq("password", pasword);
 		LogicalExpression orExp = Restrictions.and(userNameCrit,emailIdCrit);
 		crit.add(orExp);
-		return (List<UserSignUp>)crit.list();
+		return (List<UserProfile>)crit.list();
 	}
 
 }
